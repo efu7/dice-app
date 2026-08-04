@@ -1,14 +1,9 @@
 import { parseCommand } from "./parser";
 import { roll } from "./roller";
-import { judge } from "./judge";
 
 export function rollDice(command: string) {
-
-  const dice = parseCommand(command);
-
-  const result = roll(dice, command);
-
-  return judge(result);
+  const parsed = parseCommand(command);
+  return roll(parsed, command);
 }
 
 export * from "./types";
