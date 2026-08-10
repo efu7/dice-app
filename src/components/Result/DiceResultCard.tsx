@@ -22,7 +22,7 @@ function DiceResultCard({ result }: Props) {
           <hr />
         </div>
       ))}
-
+      
       {result.modifier !== 0 && (
         <p>
           補正：

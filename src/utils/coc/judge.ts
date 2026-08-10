@@ -5,7 +5,7 @@ export function judge(result: CocResult): CocResult {
   const value = result.roll;
   const target = result.target;
 
-  if (value === 1) {
+  if (value <= 5) {
     result.rank = "critical";
     result.success = true;
     return result;

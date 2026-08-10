@@ -1,6 +1,10 @@
 import { parseCoc } from "./parser";
 import { rollCoc } from "./roller";
 
+export { sampleCharacters } from "./character";
+export type { Character } from "./character";
+export type {CocSkill} from "./skills"
+
 export function executeCoc(command: string) {
 
   const parsed = parseCoc(command);
