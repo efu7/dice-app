@@ -4,6 +4,7 @@ export type Character = {
   id: string;
   name: string;
   sheetUrl?: string;
+  source?: "manual" | "iachara";
   skills: CocSkill[];
 };
 

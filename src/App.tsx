@@ -16,9 +16,48 @@ type Page = "dice" | "skill" | "mypage";
 function App() {
   const [page, setPage] = useState<Page>("dice");
 
+  const updateCharacter = (
+  updatedCharacter: Character
+) => {
+  setCharacters((prev) =>
+    prev.map((character) =>
+      character.id === updatedCharacter.id
+        ? updatedCharacter
+        : character
+    )
+  );
+
+  setSelectedCharacter((current) =>
+    current?.id === updatedCharacter.id
+      ? updatedCharacter
+      : current
+  );
+};
+
+  // 登録されているキャラクター
+  const [characters, setCharacters] =
+    useState<Character[]>(sampleCharacters);
+
   // 現在使用しているキャラクター
   const [selectedCharacter, setSelectedCharacter] =
     useState<Character | null>(sampleCharacters[0]);
+
+  // キャラクターを追加
+  const handleAddCharacter = (character: Character) => {
+    setCharacters((prev) => [...prev, character]);
+  };
+
+  // キャラクターを削除
+  const handleDeleteCharacter = (id: string) => {
+    setCharacters((prev) =>
+      prev.filter((character) => character.id !== id)
+    );
+
+    // 使用中のキャラクターを削除した場合
+    if (selectedCharacter?.id === id) {
+      setSelectedCharacter(null);
+    }
+  };
 
   return (
     <>
@@ -39,11 +78,14 @@ function App() {
         )}
 
         {page === "mypage" && (
-          <MyPages
-            characters={sampleCharacters}
-            selectedCharacter={selectedCharacter}
-            onSelectCharacter={setSelectedCharacter}
-          />
+        <MyPages
+          characters={characters}
+          selectedCharacter={selectedCharacter}
+          onSelectCharacter={setSelectedCharacter}
+          onAddCharacter={handleAddCharacter}
+          onDeleteCharacter={handleDeleteCharacter}
+          onUpdateCharacter={updateCharacter}
+        />
         )}
       </Layout>
     </>

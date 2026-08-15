@@ -1,10 +1,14 @@
-import type{ DiceResult } from "../../utils/dice";
+import type { DiceResult } from "../../utils/dice";
 
 type Props = {
   result: DiceResult;
+  onReroll?: () => void;
 };
 
-function DiceResultCard({ result }: Props) {
+function DiceResultCard({
+  result,
+  onReroll
+}: Props) {
   return (
     <div>
       <h2>{result.command}</h2>
@@ -22,7 +26,7 @@ function DiceResultCard({ result }: Props) {
           <hr />
         </div>
       ))}
-      
+
       {result.modifier !== 0 && (
         <p>
           補正：
@@ -32,6 +36,24 @@ function DiceResultCard({ result }: Props) {
       )}
 
       <h2>総合計：{result.total}</h2>
+
+
+      {/* もう一度振る */}
+      {onReroll && (
+        <button
+          onClick={onReroll}
+          style={{
+            marginTop: "20px",
+            padding: "10px 24px",
+            borderRadius: "8px",
+            border: "none",
+            cursor: "pointer",
+            fontSize: "15px",
+          }}
+        >
+          🎲 もう一度振る
+        </button>
+      )}
     </div>
   );
 }
