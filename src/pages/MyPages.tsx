@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Character } from "../utils/coc";
 import SkillEditor from "../components/SkillEditor";
+import CharacterEditor from "../components/CharacterEditor";
 import {
   isIacharaUrl,
   getIacharaCharacterId,
@@ -26,6 +27,9 @@ function MyPages({
   const [showForm, setShowForm] = useState(false);
 
   const [editingCharacterId, setEditingCharacterId] =
+    useState<string | null>(null);
+
+  const [editingSkillCharacterId, setEditingSkillCharacterId] =
     useState<string | null>(null);
 
   const [mode, setMode] = useState<"manual" | "iachara">(
@@ -314,7 +318,7 @@ function MyPages({
               技能数：{character.skills.length}
             </span>
           </div>
-
+          {/* キャラクター編集 */}
           <button
             onClick={() =>
               setEditingCharacterId(
@@ -325,14 +329,37 @@ function MyPages({
             }
           >
             {editingCharacterId === character.id
+              ? "▲ キャラクター編集を閉じる"
+              : "✏️ キャラクター編集"}
+          </button>
+
+          {/* 技能編集 */}
+          <button
+            onClick={() =>
+              setEditingSkillCharacterId(
+                editingSkillCharacterId === character.id
+                  ? null
+                  : character.id
+              )
+            }
+          >
+            {editingSkillCharacterId === character.id
               ? "▲ 技能編集を閉じる"
               : "▼ 技能を編集"}
           </button>
 
-          {editingCharacterId === character.id && (
+          {editingSkillCharacterId === character.id && (
             <SkillEditor
               character={character}
               onUpdate={onUpdateCharacter}
+            />
+          )}
+
+          {editingCharacterId === character.id && (
+            <CharacterEditor
+              character={character}
+              onUpdate={onUpdateCharacter}
+              onClose={() => setEditingCharacterId(null)}
             />
           )}
 
