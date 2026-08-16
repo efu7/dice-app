@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Header from "./components/layout/Header";
 import Tabs from "./components/layout/Tabs";
@@ -35,9 +35,27 @@ function App() {
 };
 
   // 登録されているキャラクター
-  const [characters, setCharacters] =
-    useState<Character[]>(sampleCharacters);
+ const [characters, setCharacters] =
+  useState<Character[]>(() => {
+    const saved = localStorage.getItem("characters");
 
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        return sampleCharacters;
+      }
+    }
+
+    return sampleCharacters;
+  });
+
+  useEffect(() => {
+  localStorage.setItem(
+    "characters",
+    JSON.stringify(characters)
+  );
+}, [characters]);
   // 現在使用しているキャラクター
   const [selectedCharacter, setSelectedCharacter] =
     useState<Character | null>(sampleCharacters[0]);
